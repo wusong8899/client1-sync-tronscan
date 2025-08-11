@@ -1,0 +1,35 @@
+{
+    "name": "wusong8899/client1-sync-tronscan",
+    "description": "A Flarum extension.",
+    "type": "flarum-extension",
+    "license": "MIT",
+    "require": {
+        "flarum/core": "^1.0"
+    },
+    "support": {
+        "issues": "https://github.com/wusong8899/flarum-daily-check-in/issues",
+        "source": "https://github.com/wusong8899/flarum-daily-check-in"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "wusong8899\\SyncTronscan\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "wusong8899"
+        }
+    ],
+    "extra": {
+        "flarum-extension": {
+            "title": "wusong8899 Sync Tronscan",
+            "icon": {
+                "name": "fas fa-sync",
+                "backgroundColor": "#68238c",
+                "color": "#fff"
+            }
+        }
+    }
+}

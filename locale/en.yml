@@ -1,0 +1,23 @@
+wusong8899-sync-tronscan:
+  forum:
+    check-in: Check In
+  admin:
+    link-add: Add Link
+    confirm: Confirm
+    cancel: Cancel
+    save: Save
+    save-error: Save Error
+    delete-error: Delete Error
+    settings:
+      item-id: ID
+      item-name: Name
+      item-desc: Desc
+      item-valueUsd: USD Value
+      item-img: Image
+      item-url: URL
+      item-update-time: Update Time
+      item-add: Add Link
+      item-refresh: Refresh
+      item-edit: Edit
+      item-delete: Delete
+      item-delete-confirmation: Are you sure to delete?
