@@ -44,11 +44,17 @@ export class TronscanDataLoader {
         try {
             const results = await app.store.find(defaultConfig.data.apiResources.tronscanList).catch(() => []);
             this.tronscanList = [];
+
             if (Array.isArray(results)) {
                 this.tronscanList.push(...results);
+            } else if (results) {
+                // Handle single item response
+                this.tronscanList.push(results);
             }
+
             return this.tronscanList;
         } catch {
+            // Silently handle errors and return empty array
             this.tronscanList = [];
             return this.tronscanList;
         } finally {
@@ -79,6 +85,36 @@ export class TronscanDataLoader {
     }
 
     /**
+     * Check if data is currently loading
+     */
+    isLoading(): boolean {
+        return this.tronscanListLoading;
+    }
+
+    /**
+     * Check if data is available
+     */
+    hasData(): boolean {
+        return this.tronscanList !== null && this.tronscanList.length > 0;
+    }
+
+    /**
+     * Get data count
+     */
+    getDataCount(): number {
+        return this.tronscanList ? this.tronscanList.length : 0;
+    }
+
+    /**
+     * Force reload data (bypass cache)
+     */
+    async forceReload(): Promise<any[]> {
+        this.tronscanListLoading = false; // Reset loading state
+        this.clearCache();
+        return this.loadTronscanList();
+    }
+
+    /**
      * Helper method for waiting for data to load
      */
     private async waitForTronscanList(): Promise<any[]> {
@@ -89,6 +125,12 @@ export class TronscanDataLoader {
                     resolve(this.tronscanList);
                 }
             }, 100);
+
+            // Add timeout to prevent infinite waiting
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                resolve(this.tronscanList || []);
+            }, 10000); // 10 second timeout
         });
     }
 }

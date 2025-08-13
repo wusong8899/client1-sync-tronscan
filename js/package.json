@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@wusong8899/flarum-daily-check-in",
+  "name": "@wusong8899/client1-sync-tronscan",
   "devDependencies": {
     "@types/sortablejs": "^1.15.8",
     "flarum-tsconfig": "^1.0.3",
