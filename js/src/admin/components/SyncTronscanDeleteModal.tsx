@@ -1,26 +1,30 @@
-import Modal from 'flarum/components/Modal';
-import Button from 'flarum/components/Button';
+import Modal from 'flarum/common/components/Modal';
+import Button from 'flarum/common/components/Button';
+import { SyncTronscanItemProps } from '../../common/types';
+import type Mithril from 'mithril';
 
-export default class SyncTronscanDeleteModal extends Modal {
+/**
+ * Modal component for confirming deletion of SyncTronscan items
+ */
+export default class SyncTronscanDeleteModal extends Modal<SyncTronscanItemProps> {
   static isDismissible = false;
 
-  oninit(vnode) {
+  private loading: boolean = false;
+
+  oninit(vnode: Mithril.Vnode<SyncTronscanItemProps>) {
     super.oninit(vnode);
-    this.syncTronscanItemData = this.attrs.syncTronscanItemData;
     this.loading = false;
   }
 
-  className() {
+  className(): string {
     return 'Modal--small';
   }
 
-  title() {
+  title(): string {
     return app.translator.trans('wusong8899-links-queue.admin.settings.item-delete-confirmation');
   }
 
-  content() {
-    //
-
+  content(): Mithril.Children {
     return (
       <div className="Modal-body">
         <div className="Form-group" style="text-align: center;">
@@ -47,16 +51,17 @@ export default class SyncTronscanDeleteModal extends Modal {
     );
   }
 
-  onsubmit(e) {
+  onsubmit(e: Event): void {
     e.preventDefault();
 
     this.loading = true;
 
-    this.syncTronscanItemData.delete()
-    .then(
-      (response) => {
+    this.attrs.syncTronscanItemData.delete()
+      .then(() => {
         location.reload();
-      }
-    );
+      })
+      .catch(() => {
+        this.loading = false;
+      });
   }
 }
