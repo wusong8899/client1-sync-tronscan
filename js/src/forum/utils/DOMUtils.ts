@@ -11,12 +11,12 @@ export class DOMUtils {
      * @returns {HTMLElement} Created element
      */
     static createElement(
-        tagName: string, 
-        attributes: Record<string, string> = {}, 
+        tagName: string,
+        attributes: Record<string, string> = {},
         innerHTML: string = ''
     ): HTMLElement {
         const element = document.createElement(tagName);
-        
+
         Object.entries(attributes).forEach(([key, value]) => {
             if (key === 'className') {
                 element.className = value;
@@ -26,11 +26,11 @@ export class DOMUtils {
                 element.setAttribute(key, value);
             }
         });
-        
+
         if (innerHTML) {
             element.innerHTML = innerHTML;
         }
-        
+
         return element;
     }
 
@@ -51,9 +51,11 @@ export class DOMUtils {
      */
     static querySelector(selector: string, parent: Element | Document = document): Element | null {
         try {
+            if (!parent || !selector) {
+                return null;
+            }
             return parent.querySelector(selector);
-        } catch (error) {
-            console.warn(`Invalid selector: ${selector}`, error);
+        } catch {
             return null;
         }
     }
@@ -66,9 +68,11 @@ export class DOMUtils {
      */
     static querySelectorAll(selector: string, parent: Element | Document = document): NodeListOf<Element> {
         try {
+            if (!parent || !selector) {
+                return document.querySelectorAll(''); // Return empty NodeList
+            }
             return parent.querySelectorAll(selector);
-        } catch (error) {
-            console.warn(`Invalid selector: ${selector}`, error);
+        } catch {
             return document.querySelectorAll(''); // Return empty NodeList
         }
     }
@@ -81,15 +85,15 @@ export class DOMUtils {
      * @param {boolean} useCapture - Use capture phase
      */
     static addEventListener(
-        element: Element, 
-        event: string, 
-        handler: EventListener, 
+        element: Element,
+        event: string,
+        handler: EventListener,
         useCapture: boolean = false
     ): void {
         try {
             element.addEventListener(event, handler, useCapture);
-        } catch (error) {
-            console.error('Failed to add event listener:', error);
+        } catch {
+            // Silently handle event listener errors
         }
     }
 
@@ -101,15 +105,15 @@ export class DOMUtils {
      * @param {boolean} useCapture - Use capture phase
      */
     static removeEventListener(
-        element: Element, 
-        event: string, 
-        handler: EventListener, 
+        element: Element,
+        event: string,
+        handler: EventListener,
         useCapture: boolean = false
     ): void {
         try {
             element.removeEventListener(event, handler, useCapture);
-        } catch (error) {
-            console.error('Failed to remove event listener:', error);
+        } catch {
+            // Silently handle event listener removal errors
         }
     }
 
@@ -122,8 +126,8 @@ export class DOMUtils {
         Object.entries(styles).forEach(([property, value]) => {
             try {
                 element.style.setProperty(property, value);
-            } catch (error) {
-                console.warn(`Failed to set style ${property}: ${value}`, error);
+            } catch {
+                // Silently handle style setting errors
             }
         });
     }
@@ -136,8 +140,8 @@ export class DOMUtils {
     static appendChild(parent: Element, child: Element): void {
         try {
             parent.appendChild(child);
-        } catch (error) {
-            console.error('Failed to append child element:', error);
+        } catch {
+            // Silently handle append errors
         }
     }
 
@@ -149,8 +153,8 @@ export class DOMUtils {
     static prependChild(parent: Element, child: Element): void {
         try {
             parent.insertBefore(child, parent.firstChild);
-        } catch (error) {
-            console.error('Failed to prepend child element:', error);
+        } catch {
+            // Silently handle prepend errors
         }
     }
 
@@ -163,8 +167,8 @@ export class DOMUtils {
             if (element && element.parentNode) {
                 element.parentNode.removeChild(element);
             }
-        } catch (error) {
-            console.error('Failed to remove element:', error);
+        } catch {
+            // Silently handle element removal errors
         }
     }
 }
